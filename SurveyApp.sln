@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.Domain", "src\Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.Application", "src\Core\SurveyApp.Application\SurveyApp.Application.csproj", "{30FFDAD3-124B-4F03-BDDE-C0A6309B35C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.Persistence", "src\Infrastructure\SurveyApp.Persistence\SurveyApp.Persistence.csproj", "{2823D640-D879-4646-8366-3458331EDE2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.Persistence", "src\Infrastructure\SurveyApp.Persistence\SurveyApp.Persistence.csproj", "{2823D640-D879-4646-8366-3458331EDE2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.WebApi", "src\Presentation\SurveyApp.WebApi\SurveyApp.WebApi.csproj", "{900B2125-0802-4808-A010-1082BD3677EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.WebApi", "src\Presentation\SurveyApp.WebApi\SurveyApp.WebApi.csproj", "{900B2125-0802-4808-A010-1082BD3677EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.Mvc", "src\Presentation\SurveyApp.Mvc\SurveyApp.Mvc.csproj", "{654E7A48-5BCE-4E68-BA2B-0634F5AF661B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{900B2125-0802-4808-A010-1082BD3677EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{900B2125-0802-4808-A010-1082BD3677EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{900B2125-0802-4808-A010-1082BD3677EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{654E7A48-5BCE-4E68-BA2B-0634F5AF661B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{654E7A48-5BCE-4E68-BA2B-0634F5AF661B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{654E7A48-5BCE-4E68-BA2B-0634F5AF661B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{654E7A48-5BCE-4E68-BA2B-0634F5AF661B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{30FFDAD3-124B-4F03-BDDE-C0A6309B35C3} = {30295C18-A884-4922-A6B5-256E4E8DA4C8}
 		{2823D640-D879-4646-8366-3458331EDE2A} = {01D511DC-6A10-43B4-95CC-90783C3665B1}
 		{900B2125-0802-4808-A010-1082BD3677EC} = {C26CC34F-4F7C-4A39-9A0B-74134871D9A1}
+		{654E7A48-5BCE-4E68-BA2B-0634F5AF661B} = {C26CC34F-4F7C-4A39-9A0B-74134871D9A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC360A79-32F7-4AF9-A07B-96E7B29108BB}

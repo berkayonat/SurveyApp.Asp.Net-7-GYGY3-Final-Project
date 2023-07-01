@@ -9,5 +9,6 @@ namespace SurveyApp.Application.Interfaces
 {
     public interface ISurveyRepository : IGenericRepository<Survey>
     {
+        Task<bool> TokenExistsAsync(string token);
     }
 }

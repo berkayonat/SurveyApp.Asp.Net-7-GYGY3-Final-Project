@@ -17,40 +17,38 @@ namespace SurveyApp.WebApi.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/<SurveyController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<SurveyController>/5
+        
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<SurveyController>
+        
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSurveyCommand request)
         {
             if (ModelState.IsValid)
             {
-                var surveyToken = await _mediator.Send(request);
-                var surveyUrl = Url.Action("TakeSurvey", "Home", new { token = surveyToken }, Request.Scheme);
+                var surveyUrl = await _mediator.Send(request);
                 return Ok(surveyUrl);
             }
             return BadRequest(ModelState);
         }
 
-        // PUT api/<SurveyController>/5
+        
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<SurveyController>/5
+       
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

@@ -16,44 +16,32 @@ namespace SurveyApp.Application.Features.Survey.Commands.Create
         private readonly ISurveyRepository _surveyRepository;
         private readonly IMapper _mapper;
         private readonly ITokenGenerator _tokenGenerator;
+        private readonly IUrlGenerator _urlGenerator;
 
-        public CreateSurveyCommandHandler(ISurveyRepository surveyRepository, IMapper mapper, ITokenGenerator tokenGenerator)
+
+        public CreateSurveyCommandHandler(ISurveyRepository surveyRepository, IMapper mapper, ITokenGenerator tokenGenerator, IUrlGenerator urlGenerator)
         {
             _surveyRepository = surveyRepository;
             _mapper = mapper;
             _tokenGenerator = tokenGenerator;
+            _urlGenerator = urlGenerator;
         }
 
         public async Task<string> Handle(CreateSurveyCommand request, CancellationToken cancellationToken)
         {
             var surveyToken = _tokenGenerator.GenerateUniqueToken(6);
+            while (await _surveyRepository.TokenExistsAsync(surveyToken))
+            {
+                surveyToken = _tokenGenerator.GenerateUniqueToken(6);
+            }
 
             var survey = _mapper.Map<SurveyApp.Domain.Entities.Survey>(request);
             survey.Token = surveyToken;
-            if (request.Questions != null)
-            {
-                survey.Questions = new List<SurveyApp.Domain.Entities.Question>();
-                foreach (var createQuestionCommand in request.Questions)
-                {
-                    var question = _mapper.Map<SurveyApp.Domain.Entities.Question>(createQuestionCommand);
-                    
-                    if (createQuestionCommand.AnswerOptions != null) 
-                    {
-                        question.AnswerOptions = new List<SurveyApp.Domain.Entities.AnswerOption>();
+            var surveyUrl = _urlGenerator.GenerateSurveyUrl(surveyToken);
 
-                        foreach (var createAnswerOptionCommand in createQuestionCommand.AnswerOptions)
-                        {
-                            var answerOption = _mapper.Map<SurveyApp.Domain.Entities.AnswerOption>(createAnswerOptionCommand);
-                            question.AnswerOptions?.Add(answerOption);
-                        }
-
-                    }
-                    survey.Questions?.Add(question);
-                }
-            }
             await _surveyRepository.CreateAsync(survey);
 
-            return surveyToken;
+            return surveyUrl;
         }
     }
 }

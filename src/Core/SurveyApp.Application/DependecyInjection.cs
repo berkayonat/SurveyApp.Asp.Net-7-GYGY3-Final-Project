@@ -17,6 +17,7 @@ namespace SurveyApp.Application
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ITokenGenerator, TokenGenerator>();
+            services.AddScoped<IUrlGenerator, DefaultUrlGenerator>();
         }
     }
 }

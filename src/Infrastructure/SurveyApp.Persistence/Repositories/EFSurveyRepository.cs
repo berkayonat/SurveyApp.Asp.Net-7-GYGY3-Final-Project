@@ -1,4 +1,5 @@
-﻿using SurveyApp.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using SurveyApp.Application.Interfaces;
 using SurveyApp.Domain.Entities;
 using SurveyApp.Persistence.Data;
 using System;
@@ -11,8 +12,15 @@ namespace SurveyApp.Persistence.Repositories
 {
     public class EFSurveyRepository : EFGenericRepository<Survey>, ISurveyRepository
     {
+        private readonly AppDbContext _context;
         public EFSurveyRepository(AppDbContext context) : base(context)
         {
+            _context = context;
+        }
+
+        public async Task<bool> TokenExistsAsync(string token)
+        {
+            return await _context.Surveys.AnyAsync(x => x.Token == token);
         }
     }
 }
