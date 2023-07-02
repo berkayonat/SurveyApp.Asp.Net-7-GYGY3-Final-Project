@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SurveyApp.Application.DTOs.Response;
 using SurveyApp.Application.Features.AnswerOption.Commands.Create;
 using SurveyApp.Application.Features.Question.Commands.Create;
 using SurveyApp.Application.Features.Survey.Commands.Create;
@@ -18,6 +19,10 @@ namespace SurveyApp.Application.Mapping
             CreateMap<CreateSurveyCommand, Survey>().ReverseMap();
             CreateMap<CreateQuestionCommand, Question>().ReverseMap();
             CreateMap<CreateAnswerOptionCommand, AnswerOption>().ReverseMap();
+            CreateMap<Survey, SurveyDto>().ReverseMap();
+            CreateMap<Question, QuestionDto>().ReverseMap();
+            CreateMap<AnswerOption, AnswerOptionDto>().ReverseMap();
+            CreateMap<Survey, GetAllSurveysDto>().ReverseMap();
         }
     }
 }

@@ -1,6 +1,13 @@
+using SurveyApp.Persistence;
+using SurveyApp.Application;
+
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 // Add services to the container.
+builder.Services.AddApplication();
+builder.Services.AddPersistence(configuration);
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using SurveyApp.Application.Features.Survey.Queries.GetByToken;
 using SurveyApp.Mvc.Models;
 using System.Diagnostics;
 
@@ -7,26 +9,27 @@ namespace SurveyApp.Mvc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IMediator _mediator;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         [Route("survey/{token}")]
-        public IActionResult Survey(string token)
+        public async Task<IActionResult> Survey(string token)
         {
-            
-            //var survey = _surveyRepository.GetSurveyByToken(token);
-            //if (survey != null)
-            //{
-            //    return View(survey);
-            //}
-            //else
-            //{
-            //    return NotFound();
-            //}
-            return View();
+
+            var survey = await _mediator.Send(new GetSurveyByTokenQuery(token));
+            if (survey == null)
+            {
+                return NotFound();
+
+            }
+
+            return View(survey);
+
         }
 
         public IActionResult Index()

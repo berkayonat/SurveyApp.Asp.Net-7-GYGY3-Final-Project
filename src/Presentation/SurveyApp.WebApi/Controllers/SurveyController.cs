@@ -1,6 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using SurveyApp.Application.DTOs.Response;
 using SurveyApp.Application.Features.Survey.Commands.Create;
+using SurveyApp.Application.Features.Survey.Queries.GetAll;
+using SurveyApp.Application.Features.Survey.Queries.GetByToken;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,20 +22,13 @@ namespace SurveyApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetSurveys()
         {
-            return new string[] { "value1", "value2" };
-        }
+            var surveys = await _mediator.Send(new GetAllSurveysQuery());
+            return Ok(surveys);
 
-        
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
-
-        
-        [HttpPost]
+            [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSurveyCommand request)
         {
             if (ModelState.IsValid)
@@ -41,17 +38,39 @@ namespace SurveyApp.WebApi.Controllers
             }
             return BadRequest(ModelState);
         }
-
-        
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpGet]
+        [Route("{token}")]
+        public async Task<IActionResult> Survey(string token)
         {
-        }
 
-       
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var SurveyDto = await _mediator.Send(new GetSurveyByTokenQuery(token));
+
+            if (SurveyDto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(SurveyDto);
         }
+        //[HttpPost]
+        //[Route("SubmitSurvey")]
+        //public IActionResult SubmitSurvey(SurveyViewModel surveyViewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _surveyService.SubmitSurvey(surveyViewModel);
+
+        //        return RedirectToAction("SurveyCompleted");
+        //    }
+
+        //    return BadRequest(ModelState);
+        //}
+
+        //[HttpGet]
+        //[Route("SurveyCompleted")]
+        //public IActionResult SurveyCompleted()
+        //{
+        //    return View("SurveyCompleted");
+        //}
     }
 }

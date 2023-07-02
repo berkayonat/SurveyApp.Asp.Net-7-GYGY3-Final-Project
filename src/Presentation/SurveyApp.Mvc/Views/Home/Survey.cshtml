@@ -1,0 +1,50 @@
+﻿@using SurveyApp.Domain.Enums;
+@model SurveyApp.Application.DTOs.Response.SurveyDto
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<h2>@Model.Title</h2>
+
+<h4>@Model.Description</h4>
+
+@using (Html.BeginForm("SubmitSurvey", "Home"))
+{
+    @foreach (var question in Model.Questions)
+    {
+        <h3>@question.Text</h3>
+
+        @if (question.Type == QuestionType.MultipleChoice)
+        {
+            @foreach (var answerOption in question.AnswerOptions)
+            {
+                <div>
+                    <input type="checkbox" id="@answerOption.Id" name="Answers[@question.Id]" value="@answerOption.Id">
+                    <label for="@answerOption.Id">@answerOption.Text</label>
+                </div>
+            }
+        }
+        else if (question.Type == QuestionType.ShortOpenEnded)
+        {
+            <div>
+                <input type="text" id="@question.Id" name="Answers[@question.Id]" />
+            </div>
+        }
+        else if (question.Type == QuestionType.LongOpenEnded)
+        {
+            <div>
+                <textarea id="@question.Id" name="Answers[@question.Id]" rows="4"></textarea>
+            </div>
+        }
+        else if (question.Type == QuestionType.Rating)
+        {
+            <div>
+                <input type="number" id="@question.Id" name="Answers[@question.Id]" min="1" max="5" />
+            </div>
+        }
+    }
+
+    <button type="submit">Submit</button>
+}
+
