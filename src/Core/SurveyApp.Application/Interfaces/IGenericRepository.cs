@@ -17,5 +17,6 @@ namespace SurveyApp.Application.Interfaces
         Task DeleteAsync(int id);
         Task UpdateAsync(T entity);
         Task<bool> IsExistsAsync(int id);
+        Task AddRangeAsync(IEnumerable<T> entities);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SurveyApp.Application.Interfaces;
+using SurveyApp.Domain.Entities;
 using SurveyApp.Domain.Entities.Common;
 using SurveyApp.Persistence.Data;
 using System;
@@ -57,6 +58,12 @@ namespace SurveyApp.Persistence.Repositories
         public async Task UpdateAsync(T entity)
         {
             dbSet.Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> entities)
+        {
+            await dbSet.AddRangeAsync(entities);
             await _context.SaveChangesAsync();
         }
     }

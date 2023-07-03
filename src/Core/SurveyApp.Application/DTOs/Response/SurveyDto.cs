@@ -1,4 +1,6 @@
-﻿using SurveyApp.Application.Features.Question.Commands.Create;
+﻿using SurveyApp.Application.DTOs.Request;
+using SurveyApp.Application.Features.Answer.Commands.Submit;
+using SurveyApp.Application.Features.Question.Commands.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,10 @@ namespace SurveyApp.Application.DTOs.Response
 {
     public class SurveyDto
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
+        public int? Id { get; set; }
+        public string? Title { get; set; }
         public string? Description { get; set; }
         public IList<QuestionDto>? Questions { get; set; }
-
+        public IList<AnswerDto>? Answers { get; set; }
     }
 }

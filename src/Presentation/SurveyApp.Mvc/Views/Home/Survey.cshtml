@@ -5,46 +5,66 @@
     ViewData["Title"] = @Model.Title;
 }
 
-<h2>@Model.Title</h2>
+<div class="container">
+    <h2>@Model.Title</h2>
 
-<h4>@Model.Description</h4>
-
-@using (Html.BeginForm("SubmitSurvey", "Home"))
-{
-    @foreach (var question in Model.Questions)
+    @if (!string.IsNullOrEmpty(Model.Description))
     {
-        <h3>@question.Text</h3>
-
-        @if (question.Type == QuestionType.MultipleChoice)
-        {
-            @foreach (var answerOption in question.AnswerOptions)
-            {
-                <div>
-                    <input type="checkbox" id="@answerOption.Id" name="Answers[@question.Id]" value="@answerOption.Id">
-                    <label for="@answerOption.Id">@answerOption.Text</label>
-                </div>
-            }
-        }
-        else if (question.Type == QuestionType.ShortOpenEnded)
-        {
-            <div>
-                <input type="text" id="@question.Id" name="Answers[@question.Id]" />
-            </div>
-        }
-        else if (question.Type == QuestionType.LongOpenEnded)
-        {
-            <div>
-                <textarea id="@question.Id" name="Answers[@question.Id]" rows="4"></textarea>
-            </div>
-        }
-        else if (question.Type == QuestionType.Rating)
-        {
-            <div>
-                <input type="number" id="@question.Id" name="Answers[@question.Id]" min="1" max="5" />
-            </div>
-        }
+        <p>@Model.Description</p>
     }
 
-    <button type="submit">Submit</button>
-}
+    <hr />
 
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="SubmitSurvey" asp-controller="Home" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @foreach (var question in Model.Questions)
+                {
+                    <div class="mb-3">
+                        <h3>@(Model.Questions.IndexOf(question) + 1). @question.Text</h3>
+                        <input type="hidden" name="Answers[@(Model.Questions.IndexOf(question))].QuestionId" value="@question.Id" />
+
+                        @if (question.Type == QuestionType.MultipleChoice)
+                        {
+                            foreach (var answerOption in question.AnswerOptions)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="Answers[@(Model.Questions.IndexOf(question))].AnswerOptionId" value="@answerOption.Id" />
+                                    <label class="form-check-label" asp-for="@answerOption.Text">@answerOption.Text</label>
+                                </div>
+                            }
+                        }
+                        else if (question.Type == QuestionType.ShortOpenEnded)
+                        {
+                            <div>
+                                <input class="form-control" type="text" name="Answers[@(Model.Questions.IndexOf(question))].Text" />
+                            </div>
+                        }
+                        else if (question.Type == QuestionType.LongOpenEnded)
+                        {
+                            <div>
+                                <textarea class="form-control" name="Answers[@(Model.Questions.IndexOf(question))].Text" rows="4"></textarea>
+                            </div>
+                        }
+                        else if (question.Type == QuestionType.Rating)
+                        {
+                            <div>
+                                @for (int i = 1; i <= 10; i++)
+                                {
+                                    <label class="rating-button">
+                                        <input type="radio" name="Answers[@(Model.Questions.IndexOf(question))].Rating" value="@i" />
+                                        @i
+                                    </label>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

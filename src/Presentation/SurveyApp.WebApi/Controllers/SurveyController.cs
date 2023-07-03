@@ -52,25 +52,6 @@ namespace SurveyApp.WebApi.Controllers
 
             return Ok(SurveyDto);
         }
-        //[HttpPost]
-        //[Route("SubmitSurvey")]
-        //public IActionResult SubmitSurvey(SurveyViewModel surveyViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _surveyService.SubmitSurvey(surveyViewModel);
-
-        //        return RedirectToAction("SurveyCompleted");
-        //    }
-
-        //    return BadRequest(ModelState);
-        //}
-
-        //[HttpGet]
-        //[Route("SurveyCompleted")]
-        //public IActionResult SurveyCompleted()
-        //{
-        //    return View("SurveyCompleted");
-        //}
+        
     }
 }

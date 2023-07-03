@@ -1,5 +1,10 @@
-﻿using MediatR;
+﻿using Azure.Core;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
+using SurveyApp.Application.DTOs.Request;
+using SurveyApp.Application.DTOs.Response;
+using SurveyApp.Application.Features.Answer.Commands.Submit;
 using SurveyApp.Application.Features.Survey.Queries.GetByToken;
 using SurveyApp.Mvc.Models;
 using System.Diagnostics;
@@ -21,15 +26,38 @@ namespace SurveyApp.Mvc.Controllers
         public async Task<IActionResult> Survey(string token)
         {
 
-            var survey = await _mediator.Send(new GetSurveyByTokenQuery(token));
-            if (survey == null)
+            var surveyDto = await _mediator.Send(new GetSurveyByTokenQuery(token));
+            if (surveyDto == null)
             {
                 return NotFound();
 
             }
 
-            return View(survey);
+            return View(surveyDto);
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubmitSurvey(SurveyDto request)
+        {
+            if (ModelState.IsValid)
+            {
+                var answers = request.Answers ?? new List<AnswerDto>();
+                await _mediator.Send(new SubmitSurveyAnswersCommand(answers) );
+
+
+                return RedirectToAction(nameof(SurveyCompleted));
+            }
+            
+            return View(request);
+
+        }
+
+        public IActionResult SurveyCompleted()
+        {
+            ViewBag.Message = "Survey completed successfully. Thank you!";
+            return View();
         }
 
         public IActionResult Index()

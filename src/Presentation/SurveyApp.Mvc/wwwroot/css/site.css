@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.rating-button {
+    display: inline-block;
+    margin-right: 10px;
+}
