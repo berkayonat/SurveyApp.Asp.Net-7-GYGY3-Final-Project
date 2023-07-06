@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SurveyApp.Application.Interfaces;
 using SurveyApp.Domain.Entities;
 using SurveyApp.Domain.Entities.Common;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.Persistence.Data
 {
-    public class AppDbContext : DbContext, IAppDbContext
+    public class AppDbContext : IdentityDbContext<AppUser,AppRole,string>, IAppDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

@@ -13,7 +13,6 @@ namespace SurveyApp.Application.Features.Question.Commands.Create
     {
         public string Text { get; set; }
         public QuestionType Type { get; set; }
-        public int SurveyId { get; set; }
         public IList<CreateAnswerOptionCommand>? AnswerOptions { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using SurveyApp.Application.DTOs.Response;
@@ -12,6 +13,7 @@ namespace SurveyApp.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class SurveyController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,7 +22,7 @@ namespace SurveyApp.WebApi.Controllers
         {
             _mediator = mediator;
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> GetSurveys()
         {
@@ -28,7 +30,8 @@ namespace SurveyApp.WebApi.Controllers
             return Ok(surveys);
 
         }
-            [HttpPost]
+        
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSurveyCommand request)
         {
             if (ModelState.IsValid)
@@ -38,6 +41,7 @@ namespace SurveyApp.WebApi.Controllers
             }
             return BadRequest(ModelState);
         }
+        
         [HttpGet]
         [Route("{token}")]
         public async Task<IActionResult> Survey(string token)
@@ -52,6 +56,6 @@ namespace SurveyApp.WebApi.Controllers
 
             return Ok(SurveyDto);
         }
-        
+
     }
 }

@@ -9,7 +9,5 @@ namespace SurveyApp.Application.Features.AnswerOption.Commands.Create
     public class CreateAnswerOptionCommand
     {
         public string Text { get; set; }
-
-        public int QuestionId { get; set; }
     }
 }

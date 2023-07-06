@@ -43,7 +43,7 @@ namespace SurveyApp.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var answers = request.Answers ?? new List<AnswerDto>();
+                var answers = request.Answers;
                 await _mediator.Send(new SubmitSurveyAnswersCommand(answers) );
 
 

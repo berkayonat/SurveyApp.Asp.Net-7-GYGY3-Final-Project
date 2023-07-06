@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SurveyApp.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SurveyApp.Persistence.Data;
 namespace SurveyApp.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230706150120_AppUserAndAppRoleAdded")]
+    partial class AppUserAndAppRoleAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,7 +256,7 @@ namespace SurveyApp.Persistence.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers", (string)null);
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("SurveyApp.Domain.Entities.AnswerOption", b =>
@@ -281,7 +284,7 @@ namespace SurveyApp.Persistence.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("AnswerOptions", (string)null);
+                    b.ToTable("AnswerOptions");
                 });
 
             modelBuilder.Entity("SurveyApp.Domain.Entities.Question", b =>
@@ -312,7 +315,7 @@ namespace SurveyApp.Persistence.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("SurveyApp.Domain.Entities.Survey", b =>
@@ -349,7 +352,7 @@ namespace SurveyApp.Persistence.Migrations
                     b.HasIndex("Token")
                         .IsUnique();
 
-                    b.ToTable("Surveys", (string)null);
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
