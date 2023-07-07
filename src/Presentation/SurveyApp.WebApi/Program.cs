@@ -6,20 +6,24 @@ using System.Text;
 using SurveyApp.Domain.Entities;
 using SurveyApp.Persistence.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+
 using SurveyApp.WebApi.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using SurveyApp.WebApi.Middlewares;
 using Serilog;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Add services to the container.
+
+
+builder.Services.AddControllers();
 builder.Services.AddApplication();
 builder.Services.AddPersistence(configuration);
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {

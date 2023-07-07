@@ -15,12 +15,11 @@ namespace SurveyApp.WebApi.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
-            using (LogContext.PushProperty("RequestId", Guid.NewGuid()))
-            {
+           
                 context.Request.EnableBuffering();
 
                 var request = await FormatRequest(context.Request);
-                _logger.LogInformation("Incoming Request:\n{Request}", request);
+                _logger.LogInformation("Incoming Request: {Request}", request);
 
                 var originalBodyStream = context.Response.Body;
 
@@ -31,11 +30,11 @@ namespace SurveyApp.WebApi.Middlewares
                     await _next(context);
 
                     var response = await FormatResponse(context.Response);
-                    _logger.LogInformation("Outgoing Response:\n{Response}", response);
+                    _logger.LogInformation("Outgoing Response: {Response}", response);
 
                     await responseBody.CopyToAsync(originalBodyStream);
                 }
-            }
+            
         }
 
         private static async Task<string> FormatRequest(HttpRequest request)

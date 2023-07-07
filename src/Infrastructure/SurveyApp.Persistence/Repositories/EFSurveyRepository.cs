@@ -25,8 +25,17 @@ namespace SurveyApp.Persistence.Repositories
 
         public async Task<Survey?> GetSurveyByToken(string token)
         {
-            return await _context.Surveys.Include(a=>a.Questions).ThenInclude(a=>a.AnswerOptions)
-                .Where(a=>a.Token == token).FirstOrDefaultAsync();
+            return await _context.Surveys
+                .Include(a => a.Questions)
+                .ThenInclude(a => a.AnswerOptions)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Token == token);
+        }
+
+        public async Task<IEnumerable<Survey>> GetSurveysByUserIdAsync(string userId)
+        {
+            return await _context.Surveys.Where(a => a.AppUserId == userId).AsNoTracking()
+                .ToListAsync();
         }
     }
 }

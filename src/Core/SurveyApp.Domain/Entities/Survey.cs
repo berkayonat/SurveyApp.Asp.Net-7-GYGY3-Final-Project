@@ -14,6 +14,8 @@ namespace SurveyApp.Domain.Entities
         public string Token { get; set; }
         public bool Status { get; set; } = true;
 
+        public string? AppUserId { get; set; }
+        public AppUser? AppUser { get; set; }
         public ICollection<Question>? Questions { get; set; }
 
         public Survey() => this.Questions = new HashSet<Question>();

@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
+using SurveyApp.Application.Features.Question.Commands.Create;
+using SurveyApp.Application.Features.Survey.Commands.Create;
 using SurveyApp.Application.Helpers;
 using SurveyApp.Application.Interfaces;
 using System;
@@ -18,6 +22,8 @@ namespace SurveyApp.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddScoped<IUrlGenerator, DefaultUrlGenerator>();
+            services.AddValidatorsFromAssemblyContaining<CreateSurveyCommandValidator>();
+            
         }
     }
 }

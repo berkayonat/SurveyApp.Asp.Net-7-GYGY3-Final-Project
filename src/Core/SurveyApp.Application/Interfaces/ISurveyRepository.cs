@@ -10,6 +10,7 @@ namespace SurveyApp.Application.Interfaces
     public interface ISurveyRepository : IGenericRepository<Survey>
     {
         Task<Survey?> GetSurveyByToken(string token);
+        Task<IEnumerable<Survey>> GetSurveysByUserIdAsync(string userId);
         Task<bool> TokenExistsAsync(string token);
     }
 }
