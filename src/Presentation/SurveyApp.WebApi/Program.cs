@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using SurveyApp.WebApi.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using SurveyApp.WebApi.Middlewares;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -76,13 +78,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigins", builder =>
+    options.AddPolicy("AllowAnyOrigins", builder =>
     {
-        builder.WithOrigins("https://localhost:7047")
+        builder.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
+
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day));
 
 var app = builder.Build();
 
@@ -94,7 +101,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowSpecificOrigins");
+
+app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+
+app.UseCors("AllowAnyOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();
