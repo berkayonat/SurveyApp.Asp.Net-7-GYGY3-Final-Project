@@ -10,6 +10,7 @@ using SurveyApp.Application.Features.Survey.Commands.Create;
 using SurveyApp.Application.Features.Survey.Queries.GetAll;
 using SurveyApp.Application.Features.Survey.Queries.GetAllByUserId;
 using SurveyApp.Application.Features.Survey.Queries.GetByToken;
+using SurveyApp.Application.Features.Survey.Queries.GetResults;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
@@ -42,7 +43,7 @@ namespace SurveyApp.WebApi.Controllers
 
         }
 
-        [HttpGet("user-surveys")]
+        [HttpGet("UserSurveys")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetUserSurveys()
         {
@@ -93,5 +94,17 @@ namespace SurveyApp.WebApi.Controllers
             return Ok(SurveyDto);
         }
 
+        [HttpGet("Results/{token}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetSurveyResults(string token)
+        {
+            var surveyResult = await _mediator.Send(new GetSurveyResultsQuery(token));
+            if (surveyResult == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(surveyResult);
+        }
     }
 }
